@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD8</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+        <div class="card text-center">
+            <div class="card-body mt-5">
+                <h1 class="card-title">Tebak Angka!(1-10)</h1>
+                <center><input class="form-control col-md-8" v-model="tebakan" :disabled="isDisabled"/></center>
+                <p>Anda memiliki 3 kesempatan !!!</p>
+                <br><br>
+                <button class="btn btn-dark" @click="tebak" :disabled="isDisabled">Tebak</button>
+            </div>
+        </div>
+        <div class="text-center" v-show="benar">
+            <p>SELAMAT!!! JAWABAN ANDA BENAR </p> 
+            <button class="btn btn-dark" @click="mainlagi" >main lagi</button>
+        </div>
+        <div class="text-center" v-show="kalah">
+            <p>Kamu kalah !! </p> 
+            <button class="btn btn-dark" @click="mainlagi" >main lagi</button>
+        </div>
+        <div class="text-center" v-show="salah">
+            <p>Tebakan anda salah</p> 
+            <button class="btn btn-dark" @click="cobalagi" >Coba lagi</button>
+            <p>Kesempatan anda tersisa {{ this.chance }} lagi</p>
+        </div>
+        <footer class="text-center mt-5">
+            <center><p>{{ mhs.nama }} | {{mhs.npm}} | {{mhs.kelas}}</p></center>
+        </footer>
+    </div>
+  </body>
+
+  <script>
+    new Vue({
+        el: '#app',
+        data: {
+            mhs: {
+                nama: 'Bernadus Alvin',
+                npm: '180709798',
+                kelas: 'C',
+            },
+            angka: Math.floor(Math.random() * 10)+1,
+            tebakan:"",
+            chance:3,
+            salah:undefined,
+            benar:undefined,
+            kalah:undefined,
+            isDisabled:false,
+        },
+        methods: {
+           tebak(){
+            if(this.tebakan == this.angka){
+                this.benar = 1;
+            }else {
+                    this.salah =1;
+                    this.isDisabled = true;
+                    this.chance--;
+                    if(this.chance==0){
+                        this.kalah=1;
+                        this.salah = undefined;
+                    }
+            }
+               
+           },
+           cobalagi(){
+                this.isDisabled = false;
+                this.salah = undefined;
+           },
+           mainlagi(){
+               location.reload();
+           }
+        },
+    });
+</script>
+</html>
